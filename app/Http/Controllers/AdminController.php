@@ -11,20 +11,33 @@ class AdminController extends Controller{
 
         $recipes = Recipe::latest()->paginate(10);
         return [
-            "status" => 1,
+            "success" => True,
             "data" => $recipes
         ];
     }
     
-    public function destroy(Request $request, $id){
+    public function destroyRecipe(Request $request, $id){
         
-        $recipe->body = $request->body;
-        $recipe->save();
+       
+        $recipe = Recipe::where('id', $id);
+
+
+        if (!$recipe) {
+            // Handle the case where the item is not found
+            return response()->json([
+                'success'=>False,
+            'message' => 'Recipe not found'],
+             404);
+        }
+    
+        // Delete the item
+        $recipe->delete();
         return response()->json([
-            'status' => 'success',
-            'message' => 'Todo updated successfully',
-            'todo' => $todo,
+            'success' => True,
+            'message' => 'Recipe deleted by admin',
         ]);
     }
+
+    
 
 }
