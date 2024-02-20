@@ -14,13 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('recipe', function (Blueprint $table) {
-            $table->unsignedBigInteger('created_by_id');
-            $table->foreign('created_by_id')
-            ->references('id')
-            ->on('users')
-            ->onDelete('CASCADE');
+            $table->string('location', 255);
+          
         });
-      
     }
 
     /**
@@ -30,9 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        { Schema::table('recipe', function (Blueprint $table) {
-          //  $table->dropColumn('created_by_id');
+        Schema::table('recipe', function (Blueprint $table) {
+            $table->dropColumn('location');
+          
         });
-        }
     }
 };

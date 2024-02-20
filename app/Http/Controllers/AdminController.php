@@ -23,7 +23,6 @@ class AdminController extends Controller{
 
 
         if (!$recipe) {
-            // Handle the case where the item is not found
             return response()->json([
                 'success'=>False,
             'message' => 'Recipe not found'],
@@ -35,6 +34,19 @@ class AdminController extends Controller{
         return response()->json([
             'success' => True,
             'message' => 'Recipe deleted by admin',
+        ]);
+    }
+
+    public function userData(Request $request){
+        $chef_count = User::where('user_role','chef').count();
+        $normal_user = User::where('normal_user','normal_user').count();
+        return response()->json([
+            'success' => True,
+            'message' => 'User data summary',
+            'data' => [
+                'chef_count'=>$chef_count,
+                'normal_user'=>$normal_user
+            ]
         ]);
     }
 

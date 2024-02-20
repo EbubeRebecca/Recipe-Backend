@@ -16,7 +16,7 @@ class RecipeController extends Controller
 
         $recipes = Recipe::latest()->paginate(10);
         return [
-            "status" => 1,
+            'success'=> True,
             "data" => $recipes
         ];
     }
@@ -25,7 +25,7 @@ class RecipeController extends Controller
     public function show(Recipe $recipe)
     {
         return [
-            "status" => 1,
+            'success'=> True,
             "data" =>$recipe
         ];
     }
@@ -47,7 +47,7 @@ class RecipeController extends Controller
        // $recipe = Recipe::create($request->all());
 
         return [
-            "status" => 1,
+            'success'=> True,
             "data" => $recipe
         ];
     }
@@ -71,7 +71,7 @@ class RecipeController extends Controller
         //$todo->save();
 
         return response()->json([
-            'status' => 'success',
+            'success'=> True,
             'message' => 'Recipe updated successfully',
             'recipe' => $recipe,
         ]);
@@ -81,7 +81,7 @@ class RecipeController extends Controller
         $count = Recipe::count();
 
         return response()->json([
-            'status'=> 'success',
+            'success'=> True,
             'message'=> 'Recipe count',
             'data'=>['count'=>$count]
         ]);
