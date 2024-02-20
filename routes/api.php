@@ -15,6 +15,13 @@ use App\Http\Controllers\AuthController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::group(['middleware' => 'api'
+],function ($router) {
+
+    Route::get('recipe/count', [RecipeController::class, 'countRecipes']);
+}
+
+);
 
 Route::resource('recipe', RecipeController::class)->middleware('auth');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

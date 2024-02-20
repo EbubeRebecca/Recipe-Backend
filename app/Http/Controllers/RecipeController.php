@@ -13,8 +13,6 @@ class RecipeController extends Controller
     }
     public function index()
     {
-    
-
 
         $recipes = Recipe::latest()->paginate(10);
         return [
@@ -74,8 +72,18 @@ class RecipeController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Todo updated successfully',
-            'todo' => $todo,
+            'message' => 'Recipe updated successfully',
+            'recipe' => $recipe,
+        ]);
+    }
+
+    public function countRecipes(Request $request){
+        $count = Recipe::count();
+
+        return response()->json([
+            'status'=> 'success',
+            'message'=> 'Recipe count',
+            'data'=>['count'=>$count]
         ]);
     }
 }
