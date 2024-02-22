@@ -9,18 +9,40 @@ class RecipeController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','filter_recipe']]);
     }
     public function index()
     {
 
         $recipes = Recipe::latest()->paginate(10);
-        return [
+        return response()->json([
             'success'=> True,
             "data" => $recipes
-        ];
+        ]);
     }
 
+    public function filter_recipe(Request $request)
+
+    {
+        if($request->filled('category_id') && $request->filled('location') ){
+            $recipes = Recipe::where('category_id',$request->category_id)->where('location',$request->location)->paginate(10);
+        }elseif($request->filled('category_id') ){
+            $recipes = Recipe::where('category_id',$request->category_id)->paginate(10);
+        }elseif($request->filled('location')){
+            $recipes = Recipe::where('location',$request->location)->paginate(10);
+        }else{
+
+        $recipes = Recipe::latest()->paginate(10);
+        }
+
+
+        return response()->json([
+            'success'=> True,
+            "data" => $recipes
+        ]);
+
+        
+    }
 
     public function show(Recipe $recipe)
     {

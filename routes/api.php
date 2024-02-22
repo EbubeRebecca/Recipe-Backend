@@ -24,7 +24,11 @@ Route::group(['middleware' => 'api'
 
 );
 Route::group([],function($router){
-    Route::get('category',[CategoryController::class, 'index']);});
+    Route::get('category',[CategoryController::class, 'index']);
+    Route::get('recipes/{category_id?}',[RecipeController::class, 'filter_recipe']);
+    
+
+});
 Route::resource('recipe', RecipeController::class)->middleware('auth');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
