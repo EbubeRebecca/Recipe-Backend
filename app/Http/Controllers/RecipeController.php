@@ -35,6 +35,8 @@ class RecipeController extends Controller
         $request->validate([
             'title' => 'required',
             'body' => 'required',
+            'category_id' => 'required',
+            'location'=>'required'
         ]);
         
 
@@ -42,8 +44,21 @@ class RecipeController extends Controller
         $recipe = new Recipe;
         $recipe->title = $request->title;
         $recipe->body = $request->body;
+        $recipe->category_id = $request->category_id;
+        $recipe->location = $request->location;
+
         $recipe->created_by_id = Auth::user()->id;
         $recipe->save();
+
+
+
+        foreach ($request->file('images') as $imagefile) {
+            $image = new Image;
+            $path = $imagefile->store('/images/resource');
+            $image->url = $path;
+            $image->recipe_id = $recipe->id;
+            $image->save();
+          }
        // $recipe = Recipe::create($request->all());
 
         return [

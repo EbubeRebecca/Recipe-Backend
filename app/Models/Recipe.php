@@ -19,4 +19,8 @@ class Recipe extends Model
         
     ];
     
+    public function images()
+    {
+     return $this->hasMany('App\Image', 'recipe_id');
+    }
 }
