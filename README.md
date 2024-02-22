@@ -1,16 +1,16 @@
 ## Recipe backend
 Run database migrations
-    php artisan migrate deploy
+```php artisan migrate deploy```
 
 To seed the database run
-    php artisan db:seed
+```php artisan db:seed```
 
 To run the backend server
-    php artisan serve
+```php artisan serve```
 
 
 To link [public/storage] to [storage/app/public]
-php artisan storage:link
+```php artisan storage:link```
 
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
