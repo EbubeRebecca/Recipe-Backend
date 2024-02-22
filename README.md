@@ -1,6 +1,9 @@
 ## Recipe backend
 Run database migrations
-```php artisan migrate deploy```
+```php artisan migrate```
+
+To refresh database migrations
+```php artisan migrate:refresh```
 
 To seed the database run
 ```php artisan db:seed```
