@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,8 @@ Route::group(['middleware' => 'api'
 }
 
 );
-
+Route::group([],function($router){
+    Route::get('category',[CategoryController::class, 'index']);});
 Route::resource('recipe', RecipeController::class)->middleware('auth');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
