@@ -1,12 +1,12 @@
 ## Recipe backend
 Run database migrations
-  php artisan migrate deploy
+    php artisan migrate deploy
 
 To seed the database run
-  php artisan db:seed
+    php artisan db:seed
 
 To run the backend server
-  php artisan serve
+    php artisan serve
 
 
 To link [public/storage] to [storage/app/public]
