@@ -92,15 +92,19 @@ class RecipeController extends Controller
     public function update(Request $request, $id){
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'body' => 'required|string|max:255',
         ]);
+        
         $user_id = Auth::user()->id;
         
-        $recipe = Recipe::where('created_by_id',  $user_id)->where('id',$id).first();
+        $recipe = Recipe::where('created_by_id',  $user_id)->where('id',$id);
 
-        $recipe->title = $request->title;
-        $recipe->body = $request->body;
-        $recipe->save();
+        //$recipe->title = $request->title;
+        //$recipe->body = $request->body;
+        $recipe->update(
+            ['title'=>$request->title,
+            'body'=>$request->body]
+        );
         
 
         //$todo->title = $request->title;
