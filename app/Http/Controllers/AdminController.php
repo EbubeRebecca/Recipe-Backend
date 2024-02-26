@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recipe;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller{
     public function index()
@@ -38,14 +39,16 @@ class AdminController extends Controller{
     }
 
     public function userData(Request $request){
-        $chef_count = User::where('user_role','chef').count();
-        $normal_user = User::where('normal_user','normal_user').count();
+        $chef_count = User::where('user_type','chef')->count();
+        $recipe_user_count = User::where('user_type','recipe_seeker')->count();
+        $recipe_count = Recipe::count();
         return response()->json([
             'success' => True,
             'message' => 'User data summary',
             'data' => [
                 'chef_count'=>$chef_count,
-                'normal_user'=>$normal_user
+                'recipe_user_count'=>$recipe_user_count,
+                'recipe_count'=>$recipe_count
             ]
         ]);
     }

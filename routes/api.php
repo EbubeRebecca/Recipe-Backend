@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AdminController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,8 @@ Route::group(['middleware' => 'api'
 
 );
 Route::group([],function($router){
+    Route::get('account/summary',[AdminController::class, 'userData']);
+   
     Route::get('category',[CategoryController::class, 'index']);
     Route::get('recipes/{category_id?}',[RecipeController::class, 'filter_recipe']);
     
@@ -38,6 +42,8 @@ Route::group([
     'prefix' => 'auth'
 ], function ($router) {
     Route::post('/login',  [AuthController::class, 'login'])->name('login');
+    Route::post('/admin/login',  [AuthController::class, 'adminLogin'])->name('adminLogin');
+    
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
