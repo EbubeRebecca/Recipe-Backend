@@ -15,7 +15,8 @@ class Recipe extends Model
     public $table = 'recipe';
     protected $fillable = [
         'title',
-        'body'
+        'body',
+        'video'
         
     ];
     

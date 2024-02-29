@@ -45,9 +45,9 @@ class AdminController extends Controller{
         return response()->json([
             'success' => True,
             'message' => 'User data summary',
-            'data' => [
+            'summary' => [
                 'chef_count'=>$chef_count,
-                'recipe_user_count'=>$recipe_user_count,
+                'recipe_seeker_count'=>$recipe_user_count,
                 'recipe_count'=>$recipe_count
             ]
         ]);
