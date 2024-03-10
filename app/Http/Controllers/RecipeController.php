@@ -20,7 +20,7 @@ class RecipeController extends Controller
     public function index()
     {
 
-        $recipes = Recipe::with('user')->latest()->paginate(10);
+        $recipes = Recipe::with('user')->latest()->paginate(12);
         return response()->json([
             'success'=> True,
             "data" => $recipes
@@ -62,7 +62,7 @@ public function random_strings($length_of_string)
             $recipes = Recipe::where('location',$request->location)->paginate(10);
         }else{
 
-        $recipes = Recipe::latest()->paginate(10);
+        $recipes = Recipe::latest()->paginate(12);
         }
 
 
@@ -72,6 +72,16 @@ public function random_strings($length_of_string)
         ]);
 
         
+    }
+    public function search_recipe(Request $request){
+        $keyword = $request->query('q');
+        $reci = Recipe::where('title', 'like', '%' . $keyword . '%')->orWhere('body', 'like', '%' . $keyword . '%')
+             ->paginate(10);
+       
+        return response()->json([
+            'success'=> True,
+            "data" => $reci
+        ]);
     }
 
     public function show($id)
