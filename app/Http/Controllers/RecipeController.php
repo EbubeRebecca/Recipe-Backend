@@ -15,7 +15,7 @@ class RecipeController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('auth:api', ['except' => ['index', 'show','filter_recipe']]);
+        $this->middleware('auth:api', ['except' => ['index', 'show','filter_recipe','distinct_locations']]);
     }
     public function index()
     {
@@ -27,7 +27,15 @@ class RecipeController extends Controller
         ]);
     }
 
-     
+    public function distinct_locations(){
+        $distinctLocation = Recipe::select('location')->distinct()->get();
+
+        return response()->json([
+            'success'=> True,
+            'message' => 'Distinct locations',
+            'locations' => $distinctLocation,
+        ]);
+    }
 
 public function random_strings($length_of_string)
 {
@@ -68,6 +76,7 @@ public function random_strings($length_of_string)
 
     public function show($id)
     {
+        //Get recipe and associated user object
         ///$user = User$recipe->created_by_id
         $recipe = Recipe::with('user')->find($id);
         return [
@@ -75,6 +84,19 @@ public function random_strings($length_of_string)
             "data" =>$recipe
         ];
     }
+
+    public function slug_show(Request $request)
+    {
+        //Get recipe with slug
+        ///$user = User$recipe->created_by_id
+        $recipe =Recipe::where('slug',$request->slug)->with('user')->firstOrFail();
+//        $recipe = Recipe::with('user')->find($id);
+        return [
+            'success'=> True,
+            "data" =>$recipe
+        ];
+    }
+
 
     public function store(Request $request)
     {

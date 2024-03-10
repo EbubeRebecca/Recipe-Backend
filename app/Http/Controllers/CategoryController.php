@@ -14,5 +14,13 @@ class CategoryController extends Controller{
             'message' => 'Category list',
             'category' => $category,
         ]);
+    },
+    public function distinct_cat(){
+        $category = Category::latest()->paginate();
+        return response()->json([
+            'success'=> True,
+            'message' => 'Category list',
+            'category' => $category,
+        ]);
     }
 }

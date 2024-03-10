@@ -27,9 +27,10 @@ Route::group(['middleware' => 'api'
 );
 Route::group([],function($router){
     Route::get('account/summary',[AdminController::class, 'userData']);
-   
     Route::get('category',[CategoryController::class, 'index']);
+    Route::get('locations',[RecipeController::class, 'distinct_locations']);
     Route::get('recipes/{category_id?}',[RecipeController::class, 'filter_recipe']);
+    Route::get('srecipe/{slug?}',[RecipeController::class, 'slug_show']);
     
 
 });
