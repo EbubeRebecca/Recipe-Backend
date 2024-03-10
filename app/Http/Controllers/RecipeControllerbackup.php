@@ -59,7 +59,6 @@ class RecipeController extends Controller
             'body' => 'required',
             'category_id' => 'required',
             'location'=>'required',
-            'vids' => 'required',
            
             
         ]);

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 class RecipeController extends Controller
 {
 

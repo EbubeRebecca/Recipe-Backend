@@ -5,20 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Recipe extends Model
 {
     use HasFactory;
     use HasUuids;
+    use HasSlug;
 
    
     public $table = 'recipe';
     protected $fillable = [
         'title',
         'body',
-        'video'
+        'video',
+        'slug'
         
     ];
+
+    public function getSlugOptions(): SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            ->slugsShouldBeNoLongerThan(50);
+    }
     
     public function images()
     {
