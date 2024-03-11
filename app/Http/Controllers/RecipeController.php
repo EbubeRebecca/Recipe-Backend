@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recipe;
+use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\File;
@@ -115,7 +116,8 @@ public function random_strings($length_of_string)
             'body' => 'required',
             'category_id' => 'required',
             'location'=>'required',
-            'images'=>'required'
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif', // Adjust maximum file size as needed
+            'video' => 'file|mimes:mp4,mov,avi',
         ]);
         
 
@@ -130,36 +132,24 @@ public function random_strings($length_of_string)
 
 
         if ($request->hasFile('video')){
+            Log::debug('video exists');
         $vidfile = $request->file('video');
-        $vidpath =  $request->file('video')->store('/images/resource');
+        $vidpath =  $request->file('video')->store('videos', 'public');
         $recipe->video = $vidpath;}
         $recipe->save();
 
-        //$path = Storage::putFile('avatars', $request->file('images'));
 
-      
+        if ($request->hasFile('images')){
+            
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('images', 'public');
 
-        $file = $request->file('images');
-        
-        //$path =  $request->file('images')->store('/resource');
-        $destinationPath = 'images';
-        Log::debug(explode('.',$file->getClientOriginalName())[0]);
-        Log::debug($file->getClientOriginalName());
-        $local_file_name = substr(explode('.',$file->getClientOriginalName())[0],0,6). $this->random_strings(6).'.'.$file->extension();
-        $file->move($destinationPath,$file->getClientOriginalName());
-
-        //$vidfile = $request->file('video');
-        //$file->move($destinationPath,$vidfile->getClientOriginalName());
-
-        foreach ($request->file('images') as $imagefile) {
-            $image = new Image;
-            $path = $imagefile->store('/images/resource');
-            $image->url = $path;
-            $image->recipe_id = $recipe->id;
-            $image->save();
-          }
-       // $recipe = Recipe::create($request->all());
-
+                $image = new Image;
+                $image->url = $path;
+                $image->recipe_id = $recipe->id;
+                $image->save();
+            }
+        }
         return [
             'success'=> True,
             "data" => $recipe
