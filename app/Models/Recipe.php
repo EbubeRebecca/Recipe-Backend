@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recipe extends Model
 {
@@ -34,7 +35,7 @@ class Recipe extends Model
     
     public function images()
     {
-     return $this->hasMany('App\Image', 'recipe_id');
+     return $this->hasMany(Image::class);
     }
 
     public function user()

@@ -21,7 +21,7 @@ class RecipeController extends Controller
     public function index()
     {
 
-        $recipes = Recipe::with('user')->latest()->paginate(12);
+        $recipes = Recipe::with('user')->with('images')->latest()->paginate(12);
         return response()->json([
             'success'=> True,
             "data" => $recipes
@@ -89,7 +89,7 @@ public function random_strings($length_of_string)
     {
         //Get recipe and associated user object
         ///$user = User$recipe->created_by_id
-        $recipe = Recipe::with('user')->find($id);
+        $recipe = Recipe::with('user')->with('images')->find($id);
         return [
             'success'=> True,
             "data" =>$recipe

@@ -12,8 +12,5 @@ class Image extends Model
     protected $fillable = [
         'url','recipe_id'
     ];
-    public function product()
-{
-  return $this->belongsTo('App\Recipe', 'recipe_id');
-}
+ 
 }
