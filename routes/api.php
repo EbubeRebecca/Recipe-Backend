@@ -33,6 +33,8 @@ Route::group([],function($router){
 
     Route::get('search',[RecipeController::class, 'search_recipe']);
     Route::get('srecipe/{slug?}',[RecipeController::class, 'slug_show']);
+    Route::get('me/recipes',[RecipeController::class, 'personal_recipes']);
+    Route::get('user/{user_id}/recipes',[RecipeController::class, 'user_recipes']);
     
 
 });

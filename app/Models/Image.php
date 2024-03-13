@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Storage;
 class Image extends Model
 {
     use HasFactory;
@@ -12,5 +12,8 @@ class Image extends Model
     protected $fillable = [
         'url','recipe_id'
     ];
+
+   
  
 }
+

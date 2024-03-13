@@ -22,6 +22,7 @@ class RecipeController extends Controller
     {
 
         $recipes = Recipe::with('user')->with('images')->latest()->paginate(12);
+      
         return response()->json([
             'success'=> True,
             "data" => $recipes
@@ -56,14 +57,14 @@ public function random_strings($length_of_string)
 
     {
         if($request->filled('category_id') && $request->filled('location') ){
-            $recipes = Recipe::where('category_id',$request->category_id)->where('location',$request->location)->paginate(10);
+            $recipes = Recipe::where('category_id',$request->category_id)->where('location',$request->location)->with('user')->with('images')->paginate(10);
         }elseif($request->filled('category_id') ){
-            $recipes = Recipe::where('category_id',$request->category_id)->paginate(10);
+            $recipes = Recipe::where('category_id',$request->category_id)->with('user')->with('images')->paginate(10);
         }elseif($request->filled('location')){
-            $recipes = Recipe::where('location',$request->location)->paginate(10);
+            $recipes = Recipe::where('location',$request->location)->with('user')->with('images')->paginate(10);
         }else{
 
-        $recipes = Recipe::latest()->paginate(12);
+        $recipes = Recipe::latest()->with('user')->with('images')->paginate(12);
         }
 
 
@@ -76,7 +77,7 @@ public function random_strings($length_of_string)
     }
     public function search_recipe(Request $request){
         $keyword = $request->query('q');
-        $reci = Recipe::where('title', 'like', '%' . $keyword . '%')->orWhere('body', 'like', '%' . $keyword . '%')
+        $reci = Recipe::where('title', 'like', '%' . $keyword . '%')->orWhere('body', 'like', '%' . $keyword . '%')->with('user')->with('images')
              ->paginate(10);
        
         return response()->json([
@@ -156,6 +157,27 @@ public function random_strings($length_of_string)
         ];
     }
 
+    public function personal_recipes(Request $request){
+//return recipes created by logged in user
+        $user_id = Auth::user()->id;
+        
+        $recipe = Recipe::where('created_by_id',  $user_id)->paginate(12);
+        return response()->json([
+            'success'=> True,
+            'message' => 'Retrieve loggedin user recipe',
+            'recipe' => $recipe,
+        ]);
+    }
+    public function user_recipes(Request $request,$user_id){
+        //return recipes created by logged in user
+                
+                $recipe = Recipe::where('created_by_id',  $user_id)->paginate(12);
+                return response()->json([
+                    'success'=> True,
+                    'message' => 'Retrieve user recipe',
+                    'recipe' => $recipe,
+                ]);
+            }
     public function update(Request $request, $id){
         $request->validate([
             'title' => 'required|string|max:255',
