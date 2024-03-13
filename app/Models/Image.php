@@ -12,7 +12,12 @@ class Image extends Model
     protected $fillable = [
         'url','recipe_id'
     ];
+    protected $appends = ['full_path']; // Append the derived field to the model
 
+    public function getFullPathAttribute()
+    {
+        return asset('storage/'.$this->url) ;
+    }
    
  
 }
