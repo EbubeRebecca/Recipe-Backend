@@ -101,7 +101,7 @@ public function random_strings($length_of_string)
     {
         //Get recipe with slug
         ///$user = User$recipe->created_by_id
-        $recipe =Recipe::where('slug',$request->slug)->with('user')->firstOrFail();
+        $recipe =Recipe::where('slug',$request->slug)->with('user')->with('images')->firstOrFail();
 //        $recipe = Recipe::with('user')->find($id);
         return [
             'success'=> True,
@@ -161,7 +161,7 @@ public function random_strings($length_of_string)
 //return recipes created by logged in user
         $user_id = Auth::user()->id;
         
-        $recipe = Recipe::where('created_by_id',  $user_id)->paginate(12);
+        $recipe = Recipe::where('created_by_id',  $user_id)->with('user')->with('images')->paginate(12);
         return response()->json([
             'success'=> True,
             'message' => 'Retrieve loggedin user recipe',
@@ -188,17 +188,14 @@ public function random_strings($length_of_string)
         
         $recipe = Recipe::where('created_by_id',  $user_id)->where('id',$id);
 
-        //$recipe->title = $request->title;
-        //$recipe->body = $request->body;
+       
         $recipe->update(
             ['title'=>$request->title,
             'body'=>$request->body]
         );
         
 
-        //$todo->title = $request->title;
-        //$todo->description = $request->description;
-        //$todo->save();
+       
 
         return response()->json([
             'success'=> True,
