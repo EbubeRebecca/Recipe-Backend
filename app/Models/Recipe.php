@@ -40,7 +40,14 @@ class Recipe extends Model
 
     public function user()
     {
-//        return $this->belongsTo(User::class);
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+
+    protected $appends = ['full_video_path']; // Append the derived field to the model
+
+    public function getFullVideoPathAttribute()
+    {
+        return asset('storage/'.$this->video) ;
     }
 }

@@ -37,6 +37,32 @@ class AdminController extends Controller{
             'message' => 'Recipe deleted by admin',
         ]);
     }
+    public function updateRecipe(Request $request, $id){
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string|max:255',
+        ]);
+        
+        $user_id = Auth::user()->id;
+        
+        $recipe = Recipe::where('id',$id);
+
+       
+        $recipe->update(
+            ['title'=>$request->title,
+            'body'=>$request->body]
+        );
+        
+
+       
+
+        return response()->json([
+            'success'=> True,
+            'message' => 'Recipe updated successfully',
+            'recipe' => $recipe,
+        ]);
+    }
+
 
     public function userData(Request $request){
         $chef_count = User::where('user_type','chef')->count();

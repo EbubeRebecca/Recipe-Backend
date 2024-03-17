@@ -127,7 +127,7 @@ public function random_strings($length_of_string)
         $recipe->title = $request->title;
         $recipe->body = $request->body;
         $recipe->category_id = $request->category_id;
-        $recipe->location = $request->location;
+        $recipe->location = ucfirst($request->location);
 
         $recipe->created_by_id = Auth::user()->id;
 
