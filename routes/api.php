@@ -22,6 +22,8 @@ Route::group(['middleware' => 'api'
 ],function ($router) {
 
     Route::get('recipe/count', [RecipeController::class, 'countRecipes']);
+    Route::post('image/upload',[RecipeController::class, 'upload_image']);
+   
 }
 
 );
@@ -52,7 +54,8 @@ Route::group([
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);  
+      
 });
 
 

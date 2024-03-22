@@ -157,6 +157,36 @@ public function random_strings($length_of_string)
         ];
     }
 
+
+
+    public function upload_image(Request $request)
+    {
+        $request->validate([
+            'image' => 'image|mimes:jpeg,png,jpg,gif', // Adjust maximum file size as needed
+            
+        ]);
+        $url='';
+
+        if ($request->hasFile('image')){
+            
+           
+                $path = $request->file('image')->store('images', 'public');
+
+                $image = new Image;
+                $image->url = $path;
+                $image->save();
+                $url=$path;
+            }
+        
+        return [
+            'success'=> True,
+            "data" => $url,
+            "url"=> url(asset('storage/'.$url)),
+            "uploaded"=> true,
+  "fileName"=>"example.jpg",
+        ];
+    }
+    
     public function personal_recipes(Request $request){
 //return recipes created by logged in user
         $user_id = Auth::user()->id;
@@ -182,18 +212,42 @@ public function random_strings($length_of_string)
         $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string|max:255',
+            'category_id' => 'required',
+            'location'=>'required',
         ]);
         
         $user_id = Auth::user()->id;
         
         $recipe = Recipe::where('created_by_id',  $user_id)->where('id',$id);
-
+        if (!$recipe) {
+            return response()->json([
+                'success'=> False,
+                'message' => 'Recipe does not exist',
+            ]);
+         }
        
         $recipe->update(
             ['title'=>$request->title,
-            'body'=>$request->body]
+            'body'=>$request->body,
+            'category_id'=>$request->category_id,
+            'location'=>$request->location,
+            ]
         );
         
+      
+
+
+        if ($request->hasFile('video')){
+        $vidfile = $request->file('video');
+        $vidpath =  $request->file('video')->store('videos', 'public');
+        
+        $recipe->update(
+            ['video'=>$vidpath,
+            ]
+        );
+    
+    
+    }
 
        
 
