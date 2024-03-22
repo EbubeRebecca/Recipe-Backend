@@ -279,4 +279,33 @@ public function random_strings($length_of_string)
             'data'=>['count'=>$count]
         ]);
     }
+
+    public function destroy(Request $request, $id){
+       
+        $user_id = Auth::user()->id;
+        
+        $recipe = Recipe::where('created_by_id',  $user_id)->where('id',$id);
+        if ($recipe){
+            $rmv=$recipe->delete();
+            if($rmv){
+                return response()->json([
+                    'success'=> True,
+                    'message' => 'Recipe deleted successfully',
+                   
+                ]);
+            }else{
+                return response()->json([
+                    'success'=> False,
+                    'message' => 'Error deleting recipe',
+                    
+                ]);
+            }
+        }
+
+        return response()->json([
+            'success'=> False,
+            'message' => 'Recipe not found',
+           
+        ]);
+    }
 }
