@@ -23,7 +23,8 @@ Route::group(['middleware' => 'api'
 
     Route::get('recipe/count', [RecipeController::class, 'countRecipes']);
     Route::post('image/upload',[RecipeController::class, 'upload_image']);
-   
+    Route::post('edit/recipe/{id?}/',[RecipeController::class, 'update']);
+    
 }
 
 );
@@ -37,6 +38,7 @@ Route::group([],function($router){
     Route::get('srecipe/{slug?}',[RecipeController::class, 'slug_show']);
     Route::get('me/recipes',[RecipeController::class, 'personal_recipes']);
     Route::get('user/{user_id}/recipes',[RecipeController::class, 'user_recipes']);
+
     
 
 });

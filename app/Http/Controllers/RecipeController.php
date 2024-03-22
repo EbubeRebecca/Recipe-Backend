@@ -117,7 +117,7 @@ public function random_strings($length_of_string)
             'body' => 'required',
             'category_id' => 'required',
             'location'=>'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif', // Adjust maximum file size as needed
+            'image' => 'image|mimes:jpeg,png,jpg,gif', // Adjust maximum file size as needed
             'video' => 'file|mimes:mp4,mov,avi',
         ]);
         
@@ -133,24 +133,23 @@ public function random_strings($length_of_string)
 
 
         if ($request->hasFile('video')){
-            Log::debug('video exists');
         $vidfile = $request->file('video');
         $vidpath =  $request->file('video')->store('videos', 'public');
         $recipe->video = $vidpath;}
         $recipe->save();
 
 
-        if ($request->hasFile('images')){
-            
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('images', 'public');
 
-                $image = new Image;
+        if ($request->hasFile('image')){
+            $path = $request->file('image')->store('images', 'public');
+            $image = new Image;
                 $image->url = $path;
                 $image->recipe_id = $recipe->id;
                 $image->save();
-            }
-        }
+
+      }
+
+     
         return [
             'success'=> True,
             "data" => $recipe
@@ -249,6 +248,19 @@ public function random_strings($length_of_string)
     
     }
 
+    if ($request->hasFile('image')){
+        $path = $request->file('image')->store('images', 'public');
+        $existing_image = Image::where('recipe_id',$id)->first();
+        if ($existing_image){
+          
+            $existing_image->update(['url'=>$path]);
+         }else{
+        $image = new Image;
+            $image->url = $path;
+            $image->recipe_id = $recipe->id;
+            $image->save();
+        }
+  }
        
 
         return response()->json([
