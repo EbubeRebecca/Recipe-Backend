@@ -60,4 +60,14 @@ Route::group([
       
 });
 
+//Admin urls
+
+Route::group([
+    'middleware' => 'admin',
+], function ($router) {
+    Route::delete('/admin/recipe/{id?}/',  [AdminController::class, 'destroyRecipe']);
+   
+
+});
+
 

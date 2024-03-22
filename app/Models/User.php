@@ -61,7 +61,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims() {
         return [];
     }    
-
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
     public function recipes()
     {
         return $this->hasMany('App\Recipe', 'created_by_id');

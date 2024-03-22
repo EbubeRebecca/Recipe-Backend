@@ -7,18 +7,43 @@ use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller{
+    public function __construct(){
+        $this->middleware('admin', ['except' => ['userData']]);
+    }
     public function index()
     {
 
         $recipes = Recipe::latest()->paginate(10);
-        return [
+        return response()->json([
             "success" => True,
             "data" => $recipes
-        ];
+        ]);
     }
     
+    public function destroyReciper(Request $request, $id){
+        $user_id = Auth::user()->is_admin;
+       
+        $recipe = Recipe::where('id', $id);
+
+
+        if (!$recipe) {
+            return response()->json([
+                'success'=>False,
+            'message' => 'Recipe not found'],
+             404);
+        }
+    
+        // Delete the item
+        $recipe->delete();
+        return response()->json([
+            'success' => True,
+            'message' => 'Recipe deleted by admin',
+        ]);
+    }
+
     public function destroyRecipe(Request $request, $id){
-        
+      
+        //$user_id = Auth::user()->is_admin;
        
         $recipe = Recipe::where('id', $id);
 
