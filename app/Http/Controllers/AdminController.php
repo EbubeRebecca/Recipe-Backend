@@ -65,6 +65,7 @@ class AdminController extends Controller{
     public function updateRecipe(Request $request, $id){
         $request->validate([
             'title' => 'required|string|max:255',
+            
             'body' => 'required|string|max:255',
         ]);
         
